@@ -1,18 +1,71 @@
+// Name: Amad Irfan
+// Roll No: 2021-CS-25
+
+// question
+/*The figure consists of 6 blocks with size h * h, placed as in the figure below. The lower left angle
+of the building is at position {0, 0}. The upper right angle of the figure is on position {2*h, 4*h}.
+The coordinates given in the figure are for h = 2:
+Write a program that enters an integer h and the coordinates of a given point {x, y} (integers) and
+prints whether the point is inside the figure (inside), outside of the figure (outside) or on any of
+the borders of the figure (border)*/
+
 #include <iostream>
-#include <cmath>
 using namespace std;
-main()
+int main()
 {
-    int num[10];
-    cout << "enter 10 numbers : ";
-    for (int i = 0; i < 10; i++)
+    string output;
+    int h, x, y;
+    cout << "Enter The Value Of h: ";
+    cin >> h;
+    cout << "Enter The Coordinates Of Point x ";
+    cin >> x;
+    cout << "Enter The Coordinates Of Point y ";
+    cin >> y;
+
+    if ((y < (3 * h)) && (x < h))
     {
-        cin >> num[i];
+        output = "Inside";
     }
-    for (int i = 9; i >= 0; i--)
+   else if ((y < (h * 4)) && ((x > h) && (x < (h * 2))))
+
     {
-        cout << num[i] << " ";
+        output = "Inside";
     }
 
-    return 0;
+    else if ((y > h) && (x < h))
+    {
+        output = "outside";
+    }
+    else if ((y > (h * 4)) && ((x >= h) && (x < (h * 2))))
+    {
+        output = "outside";
+    }
+    else if ((y > h) && (x > (h * 2)))
+    {
+        output = "outside";
+    }
+
+    else if ((y == h) && (x >= (h * 2)) && (y <= (h * 3)))
+    {
+        output = "Border";
+    }
+    else if ((x == (h * 3)) && ((y >= 0) && (y < h)))
+    {
+        output = "Border";
+    }
+    else if ((x == h) && ((y >= h) && (y <= (h * 4))))
+    {
+        output = "Border";
+    }
+    else if ((y == (h * 4)) && ((x > h) && (x <= (h * 2))))
+    {
+        output = "Border";
+    }
+   else if ((x == (h * 2)) && ((y >= h) && (y <= (h * 4))))
+    {
+        output = "Border";
+    }
+
+    cout << endl
+         << output;
 }

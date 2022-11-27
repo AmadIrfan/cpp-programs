@@ -1,27 +1,18 @@
-// #include <fstream>
-#include <iostream>
-#include <conio.h>
-// #include <cmath>
+#include<iostream>
 using namespace std;
-int main()
+main()
 {
-    int size;
-    cout << "How many names you want to enter ";
-    cin >> size;
-    system("cls");
-    string names[size];
-    for (int i = 0; i < size; i++)
-    {
-        cout << "Enter name " << (i + 1) << " of the list : ";
-        // cin>>names1[i];
-        cin.ignore();
-        getline(cin, names[i]);
-    }
-    for (int i = 0; i < size; i++)
-    {
-      //  string new_name = names[2];
-        cout << names[2] << " ";
-        // cout << new_name[0] << endl;
-    }
-        return 0;
+int initial_velocity;
+int time;
+int Final_velocity;
+int accalration;
+cout<<"Enter the initial_velocity ";
+cin>>initial_velocity;
+cout<<"Enter the accalration ";
+cin>>accalration;
+cout<<"Enter time";
+cin>>time;
+Final_velocity= accalration*time-initial_velocity;
+cout<<"Final_velocity is "<< Final_velocity;
+
 }

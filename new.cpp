@@ -1,12 +1,11 @@
-#include <fstream>
-#include <iostream>
-#include <conio.h>
-#include <cmath>
+#include<iostream>
 using namespace std;
-int main()
-{
- int n=5;
- cout<<--n;
- cout<<n++;
-return 0;
+int main(){
+    int speed,distance,time;
+    cout<<"Enter covered distance in kilometer : ";
+    cin>>distance;
+    cout<<"Enter covered time in hour: ";
+    cin>>time;
+    speed=distance/time;
+    cout<<"your speed is "<<speed<<" km/hr";
 }

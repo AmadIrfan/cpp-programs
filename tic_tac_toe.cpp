@@ -1,205 +1,240 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <conio.h>
-
-int GetWinner(int symbol);
-int CheckRows(int symbol);
-int CheckColumns(int symbol);
-int CheckDiagonals(int symbol);
-
-int a[3] = {11, 12, 13};
-int b[3] = {21, 22, 23};
-int c[3] = {31, 32, 33};
-
+#include <windows.h>
 using namespace std;
+void surface_board();
+bool taker(int choise);
+void change_player();
+void run_game();
+int main_manu();
+int winner_player();
+int current_player = 1;
+string plyr1, plyr2;
+char current_marker = 'X';
+char board[3][3] = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
+HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 int main()
 {
-    int i = 1, count = 0;
-    int first, second;
-    int symbol;
+     int input = 0;
+     while (input < 2)
+     {
+          input = main_manu();
+          if (input == 1)
+          {
+               system("cls");
+               cout << "\t\t----------------------------------------------------------------------" << endl;
+               cout << "\t\t-                            Tic Tac Toe                             -" << endl;
+               cout << "\t\t----------------------------------------------------------------------" << endl;
+               cout << "\t\t" << endl;
+               cout << "\n\n\n";
+               cout << "\n Enter Player 1's Name: ";
+               cin >> plyr1;
+               cout << "\n Enter Player 2's Name: ";
+               cin >> plyr2;
 
-    int taken;
-
-    while (true)
-    {
-        for (int z = 0; z < 3; z++)
-        {
-            if (taken == a[z])
-            {
-                a[z] = symbol;
-            }
-            if (taken == b[z])
-            {
-                b[z] = symbol;
-            }
-            if (taken == c[z])
-            {
-                c[z] = symbol;
-            }
-        }
-        system("cls");
-        cout << "                  ----------------------------------------------------------------------" << endl;
-        cout << "                  -                               Tic Tak Toe                          -" << endl;
-        cout << "                  ----------------------------------------------------------------------" << endl;
-        cout << "                  " << endl
-             << endl;
-        if (count > 0)
-        {
-            cout << "      Note :-" << endl
-                 << "               Taken Boxes By Player 1 Are Shown By 10" << endl
-                 << "               Taken Boxes By Player 2 Are Shown By 20" << endl
-                 << endl;
-        }
-
-        cout << "                                 _____________________" << endl;
-        cout << "                                  " << a[0] << "  |  " << a[1] << "  |  " << a[2] << "  | " << endl;
-        cout << "                                ______|______|______|" << endl;
-        cout << "                                  " << b[0] << "  |  " << b[1] << "  |  " << b[2] << "  | " << endl;
-        cout << "                                ______|______|______| " << endl;
-        cout << "                                  " << c[0] << "  |  " << c[1] << "  |  " << c[2] << "  | " << endl;
-        cout << "                                ______|______|______|" << endl;
-        if (count % 2 == 0)
-        {
-            i = 1;
-            symbol = 10;
-        }
-        else
-        {
-            symbol = 20;
-        }
-        cout << "                   player " << i << " Turn: " << endl;
-        while (true)
-        {
-            cout << "                         Enter 1st Digit: ";
-            cin >> first;
-            cout << "                         Enter 2nd Digit: ";
-            cin >> second;
-            taken = first * 10;
-            taken = taken + second;
-            if (count > 0)
-            {
-                int cont = 0;
-                for (int i = 0; i < 3; i++)
-                {
-                    if (taken == a[i])
-                    {
-                        cont = 1;
-                        break;
-                    }
-                    if (taken == b[i])
-                    {
-                        cont = 1;
-                        break;
-                    }
-                    if (taken == c[i])
-                    {
-                        cont = 1;
-                        break;
-                    }
-                }
-                if (cont == 0)
-                {
-                    cout << "                           Already Taken  :) ";
-                    cout << "                       Press Any Key: ";
-                    getch();
-                }
-            }
-
-            if (first <= 3 && second <= 3)
-            {
-                break;
-            }
-            else
-            {
-                cout << "                           InCorrect Input!!!  TRY AGAIN  :) " << endl
-                     << endl;
-                cout << "                       Press Any Key: ";
-                getch();
-            }
-        }
-
-        if (count > 3)
-        {
-            // check who wins.
-            for (int y = 0; y < 2; y++)
-            {
-                int value = 10;
-                int player = GetWinner(value);
-                if (player == 1)
-                {
-                    cout << "                         ---------Congratulation-------------";
-                    cout << "                            Player " << player << " Wins...";
-                    exit(0);
-                }
-                value = 10 + 10;
-            }
-        }
-
-        count++;
-        i++;
-    }
-
-    return 0;
+               run_game();
+          }
+     }
 }
-int GetWinner(int symbol)
+void surface_board()
 {
-    if ((CheckRows(symbol) == 1) || (CheckColumns(symbol) == 1) || (CheckDiagonals(symbol) == 1))
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+     system("cls");
+     cout << "\t\t----------------------------------------------------------------------" << endl;
+     cout << "\t\t-                            Tic Tac Toe                             -" << endl;
+     cout << "\t\t----------------------------------------------------------------------" << endl;
+     cout << "\t\t" << endl;
+     cout << "\n\n\n";
+     cout << "player 1 : " << plyr1 << "\t\t\t"
+          << "player 2 :" << plyr2;
+     cout << endl;
+     cout << "\t\t"
+          << "   " << endl;
+     cout << "\t\t"
+          << "   "
+          << " |  "
+          << "   |  "
+          << "  " << endl;
+     cout << "\t\t"
+          << " " << board[0][0] << "  |  " << board[0][1] << "  |  " << board[0][2] << "  " << endl;
+     cout << "\t\t"
+          << "   "
+          << " |  "
+          << "   |  "
+          << "  " << endl;
+     cout << "\t\t"
+          << "----------------" << endl;
+     cout << "\t\t"
+          << "   "
+          << " |  "
+          << "   |  "
+          << "" << endl;
+     cout
+         << "\t\t"
+         << " " << board[1][0] << "  |  " << board[1][1] << "  |  " << board[1][2] << "  " << endl;
+     cout << "\t\t"
+          << "   "
+          << " |  "
+          << "   |  "
+          << "  " << endl;
+     cout << "\t\t"
+          << "----------------" << endl;
+     cout << "\t\t"
+          << "   "
+          << " |  "
+          << "   |  "
+          << "  " << endl;
+     cout << "\t\t"
+          << " " << board[2][0] << "  |  " << board[2][1] << "  |  " << board[2][2] << "  " << endl;
+     cout << "\t\t"
+          << "   "
+          << " |  "
+          << "   |  "
+          << "  " << endl;
+     cout << "\n\n\n\t\t\n";
 }
-int CheckColumns(int symbol)
+bool taker(int choise)
 {
-    if (a[0] == symbol && b[0] == symbol && c[0] == symbol)
-    {
-        return 1;
-    }
-    else if (a[1] == symbol && b[1] == symbol && c[1] == symbol)
-    {
-        return 1;
-    }
-    else if (a[2] == symbol && b[2] == symbol && c[2] == symbol)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+     int row, col;
+     if (choise % 3 == 0)
+     {
+          row = (choise / 3) - 1;
+     }
+     else
+     {
+          row = choise / 3;
+     }
+     if (choise % 3 == 0)
+     {
+          col = 2;
+     }
+     else
+     {
+          col = (choise % 3) - 1;
+     }
+     if (board[row][col] != 'X' && board[row][col] != 'O')
+     {
+          board[row][col] = current_marker;
+          return true;
+     }
+     else
+          return false;
 }
-int CheckRows(int symbol)
+void change_player()
 {
-    if (a[0] == symbol && a[1] == symbol && a[2] == symbol)
-    {
-        return 1;
-    }
-    else if (b[0] == symbol && b[1] == symbol && b[2] == symbol)
-    {
-        return 1;
-    }
-    else if (c[0] == symbol && c[1] == symbol && c[2] == symbol)
-    {
-        return 1;
-    }
-    else
-        return 0;
+     if (current_player == 1)
+     {
+          current_player = 2;
+     }
+     else
+          current_player = 1;
+     if (current_marker == 'X' || current_marker == 'x')
+     {
+          current_marker = 'O';
+     }
+     else
+          current_marker = 'X';
 }
-int CheckDiagonals(int symbol)
+int winner_player()
 {
-    if (a[0] == symbol && b[1] == symbol && c[2] == symbol)
-    {
-        return 1;
-    }
-    else if (a[2] == symbol && b[1] == symbol && c[0] == symbol)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+     for (int i = 0; i < 3; i++)
+     {
+          if (board[i][0] == board[i][1] && board[i][1] == board[i][2])
+          {
+               return current_player;
+          }
+          if (board[0][i] == board[1][i] && board[1][i] == board[2][i])
+          {
+               return current_player;
+          }
+     }
+     if (board[0][0] == board[1][1] && board[1][1] == board[2][2])
+     {
+          return current_player;
+     }
+     if (board[2][0] == board[1][1] && board[1][1] == board[0][2])
+     {
+
+          return current_player;
+     }
+}
+void run_game()
+{
+     int winner;
+     int choise;
+     for (int i = 0; i < 9; i++)
+     {
+          surface_board();
+          cout << "Player " << current_player << "'s turn [" << current_marker << "]\n Enter your choise : ";
+          cin >> choise;
+
+          if (choise < 0 || choise > 9)
+          {
+               SetConsoleTextAttribute(h, 4);
+               cout << "invalid input \n"
+                    << endl;
+               i--;
+               SetConsoleTextAttribute(h, 15);
+               cout << "Press any key to continue..." << endl;
+               getch();
+               continue;
+          }
+          if (!taker(choise))
+          {
+               SetConsoleTextAttribute(h, 4);
+               cout << "this box is occupied \n"
+                    << endl;
+               i--;
+               SetConsoleTextAttribute(h, 15);
+               cout << "Press any key to continue..." << endl;
+               getch();
+               continue;
+          }
+          surface_board();
+          winner = winner_player();
+          if (winner == 1)
+          {
+               SetConsoleTextAttribute(h, 3);
+               cout << "\t\t congratulation! " << plyr1 << " \n\t\t " << plyr1 << " is winner \n";
+               SetConsoleTextAttribute(h, 15);
+               cout << "Press any key to continue..." << endl;
+               getch();
+               break;
+          }
+          if (winner == 2)
+          {
+               SetConsoleTextAttribute(h, 3);
+               cout << "\t\t congratulation! " << plyr2 << " \n \t\t" << plyr2 << " is  winner\n " << endl;
+               SetConsoleTextAttribute(h, 15);
+               cout << "Press any key to continue..." << endl;
+               getch();
+               break;
+          }
+          change_player();
+     }
+
+     if (winner != 1 && winner != 2)
+     {
+          SetConsoleTextAttribute(h, 3);
+          cout << "\t\tThis is a tie match\n ";
+          SetConsoleTextAttribute(h, 15);
+          cout << "Press any key to continue..." << endl;
+          getch();
+          cout << endl;
+     }
+}
+int main_manu()
+{
+     int input;
+     system("cls");
+     cout << "\t\t----------------------------------------------------------------------" << endl;
+     cout << "\t\t-                             Tic Tak Toe                            -" << endl;
+     cout << "\t\t----------------------------------------------------------------------" << endl;
+     cout << "\t\t" << endl;
+     cout << "\n\n\n";
+     cout << "(1). Start game\n";
+     cout << "(2). Exit\n";
+     cout << "\n your choice: ";
+     cin >> input;
+     return input;
 }

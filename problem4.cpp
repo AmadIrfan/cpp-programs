@@ -1,28 +1,32 @@
+// Program to print full star diamond pattern in C++.
 #include <iostream>
-// #include <cmath>
 using namespace std;
-string vote(int age);
+void fun(int n);
 int main()
 {
-    int age;
-   cout<<" Enter your age ";
-   cin>>age;
-cout<<vote(age);
-
+    int n;
+    cout << "Enter The Number Of Rows: ";
+    cin >> n;
+    fun(n);
 }
-string vote(int a){
-    int age;
-    if (a>=18)
+void fun(int n)
+{
+    for (int i = 0; i <= n; i++)
     {
-       string stat="your are eligible to vote.";
-    return stat;
+        for (int s = n; s > i; s--)
+            cout << " ";
+        for (int j = 0; j < i; j++)
+            cout << "* ";
+        cout << "\n";
     }
-    if (a<18)
-    {
-        /* code */
-       string stat="your are not eligible to vote.";
-    return stat;
-    }
-    
 
+    for (int i = 1; i < n; i++)
+    {
+        for (int s = 0; s < i; s++)
+            cout << " ";
+        for (int j = n; j > i; j--)
+            cout << "* ";
+        // ending line after each row
+        cout << "\n";
+    }
 }

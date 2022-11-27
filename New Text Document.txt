@@ -1,6 +1,0 @@
-#include<iostream>
-using namespace std;
-int mean(){
-cout << " Hello from UET Lahore";
-<<endl;
-}
