@@ -1,0 +1,6 @@
+3520220384665,moazam,aslam,male,inter
+3520220384665,dvi,dsvfi,fvi,vfk
+3520220384665,name,fname,male,inter
+3520220384665,ahmad,ali,male,inter
+3520220384665,ahmad,ali,male,inter
+0123456789101,amad,irfan,male,inter

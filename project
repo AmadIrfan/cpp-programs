@@ -1,0 +1,878 @@
+#include <iostream>
+#include <conio.h>
+#include <windows.h>
+#include <fstream>
+#include <string>
+using namespace std;
+void main_menu();
+void AS_CIVILIAN();
+void REGISTER();
+void CAREER();
+void contact_us();
+void main_page();
+void about_us();
+void contact_us();
+void queries();
+void ranks();
+void life_in_airforce();
+void selection_procedure();
+void training();
+void AS_AIRMAN();
+void AS_OFFICER();
+void check_officer();
+void load_data();
+void Querie_from_user(int size, string questions[]);
+void SHOW_CANIDATES(int turn, string name[], string fathername[], string cnic[], int marks_in_fsc[]);
+void medical_marks(int size, string name[], string cnic[]);
+void selected_students(int size, string cnic[], int marksmedical[], int marksinterview[], int markstest[], string name[]);
+void show_marks_in_interview(int size, string marks_interview, string name[], string f_name, string cnic[]);
+void marks_of_students_interview(int size, string name[], string cnic[]);
+void marks_of_students_test(int size, string name[], string cnic[]);
+void Airman_details(int idx, string cnic[], string name[], string f_name[], int marks_in_fsc[], int marks_in_test[]);
+void airman_interview_marks(int idx, int marks_interview[]);
+void Total_marks(int idx, int marks_interview[], int marks_in_medical[], int marks_test[]);
+void Check_selection(int idx, int t_marks);
+string store_data();
+string store_marks(int size, int marks_test[], int marks_interview[], int marks_medical[]);
+string Name[10], Father_name[10], Gender[10], Qualification[10];
+string Cnic[10], check_cnic, querie[10], airman_cnic, username, password;
+int i = 0, iterate1 = 0, index, total_marks = 0;
+bool flag = false, officer_running = false, canidate_current_status = false;
+int size_of_arrays, main_option, civilian_option, register_option, size_count = 0, career_option, age, airman, officer_option, Marks[10], sizes = 0, size2 = 0, marks_in_interview[10], marks_in_medical_test[10], marks_in_test[10], Selected_students[10];
+//
+//                              Main Function
+//
+int main()
+{
+    load_data();
+    size_count = size_count - 2;
+    cout << size_count;
+    getch();
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 3);
+    system("CLS");
+    main_option = 0;
+    while (true)
+    {
+        while (main_option < 7)
+        {
+            system("cls");
+            main_menu();
+            cin >> main_option;
+            if (main_option == 1)
+            {
+                system("cls");
+                AS_OFFICER();
+                break;
+            }
+            if (main_option == 2)
+            {
+                system("cls");
+                main_page();
+                AS_AIRMAN();
+            }
+            if (main_option == 3)
+            {
+                AS_CIVILIAN();
+                getch();
+            }
+            if (main_option == 4)
+            {
+                system("cls");
+                selection_procedure();
+                break;
+            }
+            if (main_option == 5)
+            {
+                system("cls");
+                main_page();
+                contact_us();
+                break;
+            }
+            if (main_option == 6)
+            {
+                system("cls");
+                about_us();
+                break;
+            }
+        }
+    }
+    return 0;
+}
+void gotoxy(int x, int y)
+{
+    COORD coordinates; // coordinates is declared as COORD
+    coordinates.X = x; // defining x-axis
+    coordinates.Y = y; // defining  y-axis
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
+}
+//
+//                          showing main page
+//
+void main_page()
+{
+    cout << "                                                                                                 " << endl
+         << endl;
+    cout << "                                 ------------------------------                                     " << endl;
+    cout << "                                | PAKISTAN      AIR      FORCE |                                    " << endl;
+    cout << "                                 ------------------------------                                     " << endl
+         << endl;
+    cout << "                                        CORE VALUES                                                 " << endl
+         << endl;
+    cout << "                      (1). INTEGRITY      (2).  EXCELLENCE      (3).  TEAMWORK                      " << endl
+         << endl;
+    cout << "                            _________________________________________                               " << endl;
+    cout << "                           |                                         |                              " << endl;
+    cout << "                           |           EXPLORE CAREERS               |                              " << endl;
+    cout << "                           |_________________________________________|                              " << endl
+         << endl;
+}
+//
+//                              showing main menu as you start the program
+//
+void main_menu()
+{
+    main_page();
+    cout << "       1. AS AN OFFICER                                                                          " << endl;
+    cout << "       2. AS AN AIRMAN                                                                           " << endl;
+    cout << "       3. AS A CIVILIAN                                                                          " << endl;
+    cout << "       4. SELECTION PROCEDURE                                                                    " << endl;
+    cout << "       5. CONTACT US                                                                             " << endl;
+    cout << "       6. ABOUT US                                                                               " << endl;
+    cout << "       7. EXIT                                                                                   " << endl;
+}
+//
+//                               requirements for a military person to join it
+//
+void requirements()
+{
+    cout << "                               FOR A SOLIDER                                         " << endl
+         << endl;
+    cout << "  ->  Age Limit (17 to 22 Years) as of 1st April 2022." << endl;
+    cout << "  ->  One year of age relaxation for the graduates." << endl;
+    cout << "  ->  2 year age relaxation for the family of martyrs having a driving license.     " << endl;
+    cout << "  ->  Soldiers height must be equal to or" << endl;
+    cout << "                                                                                    " << endl
+         << endl;
+    cout << "                               FOR A COMMISIONED OFFICER                            " << endl
+         << endl;
+    cout << "  ->  greater thant : 5 Feet 6 Inches.Military Police Height : 5 Feet 8 Inches Minimum." << endl;
+    cout << "  ->  Candidates must be Pakistani nationals." << endl;
+    cout << "  ->  Only Male Candidates are eligible to apply." << endl;
+    cout << "  ->  Martial Status : Unmarried.Age Required : 17 - 23 Years old.Qualification Required : Intermediate," << endl;
+    cout << "  ->  Graduation 2 / 4 Years " << endl;
+    getch();
+}
+//
+//                                                 NEW REGISTRATION OF CANIDATES
+//
+void NEW_REGISTER()
+{
+    string word;
+    int count_words = 0;
+    cout << "Enter your CNIC                                                             : " << endl;
+    cin >> Cnic[i];
+    word = Cnic[i];
+    for (int i = 0; word[i] != '\0'; i++)
+    {
+        count_words++;
+    }
+    if (count_words == 13)
+    {
+        if (i == 0)
+        {
+            cout << "Enter your name                                                             : " << endl;
+            cin.ignore();
+            getline(cin, Name[i]);
+            cout << "Enter your father name                                                      : " << endl;
+            cin >> Father_name[i];
+            cout << "Enter your gender                                                           : " << endl;
+            cin >> Gender[i];
+            cout << "Enter your Qualification (only intermediate students can apply )            : " << endl;
+            cin >> Qualification[i];
+            cout << "Enter your marks only intermediate                                          : " << endl;
+            cin >> Marks[i];
+        }
+        if (i > 0)
+        {
+            cout << "Enter your name                                                            : " << endl;
+            cin.ignore();
+            getline(cin, Name[i]);
+            cout << "Enter your father name                                                     : " << endl;
+            cin >> Father_name[i];
+            cout << "Enter your gender                                                          : " << endl;
+            cin.ignore();
+            getline(cin, Gender[i]);
+            cout << "Enter your Qualification (only intermediate students can apply )           : " << endl;
+            cin.ignore();
+            getline(cin, Qualification[i]);
+            cout << "Enter your marks only intermediate                                         : " << endl;
+            cin >> Marks[i];
+        }
+        i++;
+        sizes = i;
+        store_data();
+    }
+    else
+    {
+        cout << "       Kindly enter a correct cnic and try again :-                          " << endl;
+    }
+    getch();
+}
+//
+//                                             CURRENT FILE OR YOUR DATA IN THIS PROGRAM
+//
+string CURRENT_STATUS(int size, string cnic[], string names[], string f_names[], string genders[], string qualifications[], int markses[])
+{
+    main_page();
+    cout << "Enter your CNIC number         :  ";
+    cin >> check_cnic;
+    for (int i = 0; i < size; i++)
+    {
+        if (check_cnic == cnic[i])
+        {
+            canidate_current_status = true;
+            cout << "your CNIC                                                             : " << cnic[i] << endl;
+            cout << "your name                                                             : " << names[i] << endl;
+            cout << "your father name                                                      : " << f_names[i] << endl;
+            cout << "your gender                                                           : " << genders[i] << endl;
+            cout << "your qualification (only matric and intermediate students can apply ) : " << qualifications[i] << endl;
+            cout << "your marks only intermediate                                          : " << markses[i] << endl;
+        }
+    }
+    getch();
+}
+//
+//                       REGISTER MAIN FUNCTION
+//
+void REGISTER()
+{
+    while (register_option != 3)
+    {
+        register_option = 0;
+        system("cls");
+        main_page();
+        cout << "   (1). REGISTER NOW                                                                           " << endl;
+        cout << "   (2). CURRENT STATUS                                                                         " << endl;
+        cout << "   (3). EXIT                                                                                   " << endl
+             << endl;
+        cin >> register_option;
+        if (register_option == 1)
+        {
+            system("cls");
+            main_page();
+            NEW_REGISTER();
+            getch();
+        }
+        if (register_option == 2)
+        {
+            system("cls");
+            CURRENT_STATUS(size_count, Cnic, Name, Father_name, Gender, Qualification, Marks);
+            getch();
+        }
+    }
+}
+//
+//                      CAREER OPTIONS IN AIR FORCE
+//
+void CAREER()
+{
+    while (career_option != 3)
+    {
+        cout << "                    PAF PROVIDES VARIOUS CAREERS                           " << endl
+             << endl;
+        cout << "   (1).OFFICER                                                             " << endl;
+        cout << "   (2).AIRMAN                                                              " << endl;
+        cout << "   (3).EXIT                                                                " << endl;
+        career_option = 0;
+        cin >> career_option;
+        if (career_option == 1)
+        {
+            cout << " ";
+        }
+        if (career_option == 2)
+        {
+            cout << "       PAF PROVIDES VARIOUS CAREERS AS AN AIRNMAN                          " << endl
+                 << endl;
+            cout << "   (1). RELIGIOUS TEACHER                                                  " << endl;
+            cout << "   (2). EDUCATION INSTRUCTOR                                               " << endl;
+            cout << "   (3). AERO TECHNICIAN                                                    " << endl;
+            cout << "   (4). PROVOST                                                            " << endl;
+            cout << "   (5). GROUND COMATIER                                                    " << endl;
+            cout << "   (6). MECHANICAL TRANSPORT DRIVER (MTD)                                  " << endl;
+            cout << "   (7). MUSIC                                                              " << endl;
+            cout << "   (8). SPORTS MAN                                                         " << endl;
+        }
+    }
+    getch();
+}
+//
+//                      YOU ARE A CIVILIAN AND ENTER AS A CANIDATE OR VISITER WHO VISIT YOUR PROGRAM
+//
+void AS_CIVILIAN()
+{
+    civilian_option = 0;
+    while (civilian_option < 9)
+    {
+        system("cls");
+        main_page();
+        cout << "   (1). REGISTER                                                                                 " << endl;
+        cout << "   (2). CAREERS                                                                                  " << endl;
+        cout << "   (3). TRAINING                                                                                 " << endl;
+        cout << "   (4). REQUIREMENTS FOR COURSE                                                                  " << endl;
+        cout << "   (5). AIR FORCE RANKS                                                                          " << endl;
+        cout << "   (6). LIFE IN AIR FORCE                                                                        " << endl;
+        cout << "   (7). CONTACT FOR ANY QUERY                                                                    " << endl;
+        cout << "   (8). ANY QUERY ABOUT REGISTRATION                                                             " << endl;
+        cout << "   (9). EXIT                                                                                     " << endl;
+        cout << "                                                                                                 " << endl
+             << endl;
+        cin >> civilian_option;
+        if (civilian_option == 1)
+        {
+            system("cls");
+            main_page();
+            REGISTER();
+            getch();
+        }
+        if (civilian_option == 2)
+        {
+            system("cls");
+            main_page();
+            CAREER();
+        }
+        if (civilian_option == 3)
+        {
+            training();
+        }
+        if (civilian_option == 4)
+        {
+            system("cls");
+            main_page();
+            requirements();
+        }
+        if (civilian_option == 5)
+        {
+            system("cls");
+            ranks();
+        }
+        if (civilian_option == 6)
+        {
+            system("cls");
+            life_in_airforce();
+        }
+        if (civilian_option == 7)
+        {
+            system("cls");
+            main_page();
+            contact_us();
+        }
+        if (civilian_option == 8)
+        {
+            queries();
+        }
+    }
+}
+//
+//                      ABOUT THE HISTORY OF AIR FORCE
+//
+void about_us()
+{
+    main_page();
+    cout << " -> As of 2021 ,                                                                              " << endl;
+    cout << " -> as per the International Institute for Strategic Studies,                                 " << endl;
+    cout << " -> the PAF has more than 70,000 active-duty personnel and operates at least 970 aircraft.... " << endl;
+    cout << " -> Pakistan Air Force                                                                        " << endl
+         << endl;
+    cout << "        ---------------------------------                                                     " << endl;
+    cout << "         Type      	Air        force                                                       " << endl;
+    cout << "        ---------------------------------                                                     " << endl;
+    cout << "  1) Role	Air defence and Aerial warfare                                                     " << endl;
+    cout << "  2) Size	70,000 active-duty                                                                 " << endl;
+    cout << "  3) 8,000 reserve 128 civilian personnel                                                     " << endl;
+    cout << "  4) Approx 970+ aircraft                                                                     " << endl;
+    cout << "  5) The Pakistan Air Force is the aerial warfare branch of the Pakistan Armed Forces,        " << endl;
+    cout << "  6) tasked primarily with the aerial defence of Pakistan, with a secondary role of providing " << endl;
+    cout << "              air support to the Pakistan Army and Navy when required,                        " << endl;
+    cout << "  7) and a tertiary role of providing strategic airlift capability to Pakistan.               " << endl;
+    cout << "  8) Wikipedia Fighter : F - 16A /  B / AM / BM / C / D,JF - 17A / B,                         " << endl;
+    cout << "  9) Chengdu J - 10C Chairman Joint Chiefs of Staff : General Nadeem Raza Headquarters        " << endl;
+    cout << "  10) Air Headquarters(AHQ),Islamabad,                                                        " << endl;
+    cout << "  11) ICT Size : 70, 000 active - duty;8,000 reserve;                                         " << endl;
+    cout << "  12) 128 civilian personnel;                                                                 " << endl;
+    cout << "  13) Approx 970 +   Aircraft                                                                 " << endl;
+    cout << "  14) Helicopter : AW139,                                                                     " << endl;
+    cout << "  15) Bell 205, Bell 412, Mi - 171, Bell AH - 1 Cobra Trainer : MFI - 17 Mushshak,            " << endl;
+    cout << "  16) MFI - 395 Super Mushshak, T - 37, K - 8P, FT - 6, FT - 7, F - 16B / D, JF - 17B         " << endl;
+    cout << "  17) Chief of Air Staff : Air Chief Marshal Zaheer Ahmad Babar                               " << endl;
+    getch();
+}
+//
+//                  CONTACT INFORMATIONS
+//
+void contact_us()
+{
+    cout << " -----------------------------------------------------------------" << endl;
+    cout << "|             PAF Information &Selection Centres                  |" << endl;
+    cout << " -----------------------------------------------------------------" << endl;
+    cout << "    AS &RCs         Contact No              Call Timing           " << endl;
+    cout << "    Rawalpindi     051 - 5701143       08 : 00 AM to 02 : 00 PM   " << endl;
+    cout << "    Peshawar       091 - 9210829       08 : 00 AM to 02 : 00 PM   " << endl;
+    cout << "    Lahore         042 - 9201199       08 : 00 AM to 02 : 00 PM   " << endl;
+    cout << "    Faisalabad     041 - 9201199       08 : 00 AM to 02 : 00 PM " << endl
+         << endl;
+    cout << " More information is provided on website " << endl;
+    getch();
+}
+//
+//                   IF YOU HAVE ANY QUERY WRITE ON IT
+//
+void queries()
+{
+    cout << "To complete query Press :- Enter   " << endl;
+    cout << "   Write your querie :-  ";
+    cin.ignore();
+    getline(cin, querie[iterate1]);
+    size2 = iterate1++;
+    getch();
+}
+void ranks()
+{
+    main_page();
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 6);
+    SetConsoleTextAttribute(hConsole, 3);
+    cout << "                        PAKISTAN AIR FORCE COMMISIONED RANKS                           " << endl;
+    cout << " _____________________________________________________________________________________ " << endl;
+    cout << "|                         |                             |                             |" << endl;
+    cout << "|   RANKS                 |            STARS            |            SYMBOL           |" << endl;
+    cout << "|_________________________|_____________________________|_____________________________|" << endl;
+    cout << "| AIR CHIEF MARSHAL       |           **** (4)          |            ACM              |" << endl;
+    cout << "| AIR MARSHAL             |           ***  (3)          |            AM               |" << endl;
+    cout << "| AIR VICE MARSHAL        |           **   (2)          |            AVM              |" << endl;
+    cout << "| AIR COMMANDER           |           *    (1)          |            AIR CORE         |" << endl;
+    cout << "| GROUP CAPTAIN           |                             |            GP CAPT          |" << endl;
+    cout << "| WING COMMANDER          |                             |            WG CDR           |" << endl;
+    cout << "| SQUARDEN LEADER         |                             |            SQN LDR          |" << endl;
+    cout << "| FLIGHT LIEUTENANT       |                             |            FLT LT           |" << endl;
+    cout << "| FLYING OFFICER          |                             |            FLG OFF          |" << endl;
+    cout << "| PILOT OFFICER           |                             |            PLT OFF          |" << endl;
+    cout << "|_________________________|_____________________________|_____________________________|" << endl;
+    getch();
+    SetConsoleTextAttribute(hConsole, 6);
+}
+//
+//                              LIFE IN AIR FORCE
+//
+void life_in_airforce()
+{
+    main_page();
+    cout << "                                  AN UNMATCHED WAY OF LIFE                             " << endl;
+    cout << "                               WHERE THE BEST IN YOU COMES OUT !                       " << endl
+         << endl;
+    cout << "           PAF PROVIDES YOU THE MOST MODERN FACILITIES, CONDUCIVE ENVIRONMENT AND UNMATCHED" << endl;
+    cout << "                       WAY OF LIFE WHERE THE BEST IN YOU COMES OUT." << endl
+         << endl;
+    cout << " ->  THERE ARE FOLLOWING FACILITIES PROVIDED BY PAKISTAN AIR FORCE IN HIS CARRER :   " << endl
+         << endl;
+    cout << " (1)    MESS LIFE           " << endl;
+    cout << " (2)    ACCOMODATION        " << endl;
+    cout << " (3)    MEDICAL             " << endl;
+    cout << " (4)    TRANSPORT           " << endl;
+    cout << " (5)    EDUCATION           " << endl;
+    cout << " (6)    SPORTS              " << endl;
+    cout << " (7)    LIFE AT BASE        " << endl;
+    cout << " (8)    CONDUCT OF HAJJ     " << endl;
+    cout << " (9)    PAFWA               " << endl;
+    cout << " (10)   SOCIAL EVENTS       " << endl;
+    cout << " (11)   FORIEGN ASSIGNMENTS " << endl;
+    cout << " (12)   WORK SERVICES       " << endl;
+    cout << " (13)   HOUSING SCHEMES     " << endl;
+    getch();
+}
+//
+//                  SELECTION PROCEDURE OF PAKISTAN AIR FORCE
+//
+void selection_procedure()
+{
+    main_page();
+    cout << " The selection procedure of pakistan air force consist of following steps " << endl
+         << endl;
+    cout << "   (1). Preliminary selection                                   " << endl;
+    cout << "   (2). Test at selection center                                " << endl;
+    cout << "   (3). Intelligence test (online)                              " << endl;
+    cout << "   (4). Acadiemic test                                          " << endl;
+    cout << "   (5). Preliminary interviews                                  " << endl;
+    cout << "   (6). Preliminary Medical Test                                " << endl;
+    cout << "   (7). ISSB Test & Interview                                   " << endl;
+    cout << "   (8). Final selection                                         " << endl;
+    cout << "   (9). Final medical test and flying amplitude test in Karachi " << endl;
+    cout << "   (10). Training                                                " << endl;
+    getch();
+}
+void training()
+{
+}
+//
+//                      IF YOU JOIN THEN CHECK WHAT YOU CAN CHECK
+//
+void AS_AIRMAN()
+{
+    int length, cnic_length_count = 0;
+    string check_cnic_length;
+    cout << "   Enter your Cnic                       " << endl;
+    cin >> airman_cnic;
+    check_cnic_length = airman_cnic;
+    for (int i = 0; check_cnic_length[i] != 0; i++)
+    {
+        cnic_length_count++;
+    }
+    for (int i = 0; i < sizes; i++)
+    {
+        if (airman_cnic == Cnic[i] && cnic_length_count == 13)
+        {
+            index = i;
+        }
+    }
+    system("cls");
+    main_page();
+    cout << "                        ->   Kindly enter a correct cnic                 " << endl;
+    getch();
+    system("cls");
+    main_page();
+    while (airman < 5 && cnic_length_count == 13)
+    {
+        cout << "  (1) See your details (About Admission) " << endl;
+        cout << "  (2) Your interview marks               " << endl;
+        cout << "  (3) Your total marks                   " << endl;
+        cout << "  (4) Check selection                    " << endl;
+        cout << "  (5) Exit                               " << endl;
+        cin >> airman;
+        if (airman == 1)
+        {
+            Airman_details(index, Cnic, Name, Father_name, Marks, marks_in_test);
+        }
+        if (airman == 2)
+        {
+            airman_interview_marks(index, marks_in_interview);
+        }
+        if (airman == 3)
+        {
+            Total_marks(index, marks_in_interview, marks_in_medical_test, marks_in_test);
+        }
+        if (airman == 4)
+        {
+            Check_selection(index, total_marks);
+        }
+    }
+}
+//
+//                          OPTION FOR ADMIN
+//
+void AS_OFFICER()
+{
+    check_officer();
+    while (officer_option != 7)
+    {
+        officer_option = 0;
+        system("cls");
+        main_page();
+        cout << "   (1) Number of registered students and records  " << endl;
+        cout << "   (2) Test marks of students                     " << endl;
+        cout << "   (3) Medical test Marks                         " << endl;
+        cout << "   (4) Interview marks                            " << endl;
+        cout << "   (5) Selected students                          " << endl;
+        cout << "   (6) Querie from user                           " << endl;
+        cout << "   (7) Exit                                       " << endl;
+        cin >> officer_option;
+        if (officer_option == 1)
+        {
+            // in unsorted order
+            SHOW_CANIDATES(size_count, Name, Father_name, Cnic, Marks);
+        }
+        if (officer_option == 2)
+        {
+            marks_of_students_test(size_count, Name, Cnic);
+        }
+        if (officer_option == 3)
+        {
+            medical_marks(size_count, Name, Cnic);
+        }
+        if (officer_option == 4)
+        {
+            marks_of_students_interview(size_count, Name, Cnic);
+        }
+        if (officer_option == 5)
+        {
+            selected_students(size_count, Cnic, marks_in_medical_test, marks_in_interview, marks_in_test, Name);
+        }
+        if (officer_option == 6)
+        {
+            Querie_from_user(sizes, querie);
+        }
+    }
+}
+
+void SHOW_CANIDATES(int turn, string name[], string f_name[], string cnic[], int marks_in_fsc[])
+{
+    for (int i = 0; i < 1; i++)
+    {
+        cout << " CNIC         = " << cnic[i] << endl;
+        cout << " NAME         = " << name[i] << endl;
+        cout << " FATHER NAME  = " << f_name[i] << endl;
+        cout << " MARKS IN FSC = " << marks_in_fsc[i] << endl;
+    }
+    cout << "   PRESS ANY KEY TO GO BACK                    " << endl;
+    getch();
+}
+void marks_of_students_test(int size, string name[], string cnic[])
+{
+    int a1;
+    cout << "           MAXIMUM MARKS IS 30                " << endl
+         << endl;
+    while (marks_in_test[a1] < 31 && a1 < size)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            cout << "Enter the marks in interview of student " << name[i] << " having cnic = " << cnic[i] << endl;
+            cin >> marks_in_test[i];
+        }
+        a1++;
+    }
+    cout << "   PRESS ANY KEY TO GO BACK                    " << endl;
+    getch();
+}
+void marks_of_students_interview(int size, string name[], string cnic[])
+{
+    int a = 0;
+    cout << "           MAXIMUM MARKS IS 30                " << endl
+         << endl;
+    while (marks_in_interview[a] < 31 && a < size)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            cout << "Enter the marks in interview of student " << name[i] << " having cnic = " << cnic[i] << endl;
+            cin >> marks_in_interview[i];
+        }
+        a++;
+    }
+    cout << "   PRESS ANY KEY TO GO BACK                    " << endl;
+    getch();
+}
+void show_marks_in_interview(int size, string marks_interview, string name[], string f_name, string cnic[])
+{
+    main_page();
+    for (int i = 0; i < size; i++)
+    {
+        cout << " CNIC = " << cnic[i] << " NAME = " << name[i] << " FATHER NAME = " << f_name[i] << " MARKS INTERVIEW = " << marks_interview[i] << endl;
+    }
+    cout << "   PRESS ANY KEY TO GO BACK                    " << endl;
+    getch();
+}
+void medical_marks(int size, string name[], string cnic[])
+{
+    int b = 0;
+    cout << "           MAXIMUM MARKS IS 40                " << endl
+         << endl;
+    while (marks_in_medical_test[b] < 41 && b < size)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            cout << "Enter the marks in interview of student " << name[i] << " having cnic = " << cnic[i] << endl;
+            cin >> marks_in_medical_test[i];
+        }
+        b++;
+    }
+    cout << "   PRESS ANY KEY TO GO BACK                    " << endl;
+    getch();
+}
+void selected_students(int size, string cnic[], int marksmedical[], int marksinterview[], int markstest[], string name[])
+{
+    for (int i = 0; i < size; i++)
+    {
+        Selected_students[i] = marksmedical[i] + marksinterview[i] + markstest[i];
+        if (Selected_students[i] > 69)
+        {
+            flag = true;
+        }
+        if (flag == true)
+        {
+            cout << " Name = " << name[i] << "       "
+                 << " CNIC " << cnic[i] << "       "
+                 << " ===>  SELECTED " << endl;
+        }
+        if (flag == false)
+        {
+            cout << " Name = " << name[i] << "       "
+                 << " CNIC = " << cnic[i] << "       "
+                 << " ===> NOT SELECTED " << endl;
+        }
+    }
+    store_marks(size, markstest, marksinterview, marksmedical);
+    getch();
+}
+void Querie_from_user(int size, string questions[])
+{
+    cout << "The querie from User is : " << endl;
+    for (int i = 0; i < size; i++)
+    {
+        cout << " (" << i + 1 << ") " << questions[i] << endl;
+    }
+}
+void Airman_details(int idx, string cnic[], string name[], string f_name[], int marks_in_fsc[], int marks_test[])
+{
+    cout << " CNIC          = " << cnic[idx] << endl;
+    cout << " NAME          = " << name[idx] << endl;
+    cout << " FATHER NAME   = " << f_name[idx] << endl;
+    cout << " MARKS IN FSC  = " << marks_in_fsc[idx] << endl;
+    cout << " Marks in test = " << marks_test[idx] << endl
+         << endl;
+    cout << "   PRESS ANY KEY TO GO BACK                    " << endl;
+    getch();
+}
+void airman_interview_marks(int idx, int marks_interview[])
+{
+    cout << "   Your marks in interview is :  " << marks_interview[idx] << endl;
+}
+void Total_marks(int idx, int marks_interview[], int marks_in_medical[], int marks_test[])
+{
+    total_marks = marks_interview[idx] + marks_in_medical[idx] + marks_test[idx];
+    cout << "   You have obtained marks  =  " << total_marks << endl;
+}
+void Check_selection(int idx, int t_marks)
+{
+    if (t_marks >= 70)
+    {
+        // 😎😎😎😎😎😎😎😎😎😎😎😎
+        cout << " Congratulations !!      " << endl
+             << endl;
+        cout << "                           You are selected in pakistan air force                                  " << endl;
+    }
+}
+void check_officer()
+{
+    main_page();
+    cout << "                                                                                           " << endl
+         << endl
+         << endl;
+    cout << "                          Enter Your username  :-                                          " << endl;
+    cin >> username;
+    cout << "                          Enter Your Password  :-                                          " << endl;
+    cin >> password;
+    if ((username == "pakistan" || username == "pakistan") && (password == "zindabad" || password == "ZINDABAD"))
+    {
+        officer_running = true;
+    }
+    else
+    {
+        officer_running = false;
+    }
+    if (officer_running == true)
+    {
+        system("cls");
+        main_page();
+        cout << "                                                                                                           " << endl
+             << endl
+             << endl
+             << endl
+             << endl;
+        cout << "                                           WELCOME BACK !                                                  " << endl;
+        getch();
+    }
+}
+string store_data()
+{
+    fstream file1;
+    file1.open("storedata.txt", ios::app);
+    for (int i = 0; i < sizes; i++)
+    {
+        file1 << Cnic[i] << "," << Name[i] << "," << Father_name[i] << "," << Gender[i] << "," << Qualification[i] << endl;
+    }
+    file1.close();
+}
+string store_marks(int size, int marks_test[], int marks_interview[], int marks_medical[])
+{
+    fstream file2;
+    file2.open("store marks .txt", ios::app);
+    file2 << marks_test[i] << "," << marks_interview[i] << "," << marks_medical[i] << endl;
+    file2.close();
+}
+string parsedata(string array, int number)
+{
+    int commacount = 0, index = 0;
+    string item;
+    fstream file;
+    file.open("storemarks.txt", ios::in);
+    while (!file.eof())
+    {
+        char character = array[index];
+        if (character == '\0')
+        {
+            return item;
+        }
+        if (character == ',')
+        {
+            commacount++;
+        }
+        if (character == number)
+        {
+            item = item + character;
+        }
+        index++;
+    }
+    return item;
+}
+void load_data()
+{
+    string word;
+    fstream file2, file1;
+    file1.open("storedata.txt", ios::in);
+    int size3 = 0;
+    while (!file1.eof() && size3 <= sizes)
+    {
+        getline(file1, word);
+        Cnic[size3] = parsedata(word, 1);
+        cout << Cnic[size3];
+        Name[size3] = parsedata(word, 2);
+        Father_name[size3] = parsedata(word, 3);
+        Gender[size3] = parsedata(word, 4);
+        Qualification[size3] = parsedata(word, 5);
+        size3++;
+        size_count++;
+    }
+    file1.close();
+    int j = 0;
+    file2.open("store marks .txt", ios::in);
+    while (!file2.eof())
+    {
+        getline(file2, word);
+        // marks_in_test[j] = stoi(parsedata(word, 1));
+        // marks_in_interview[j] = stoi(parsedata(word, 2));
+        // marks_in_medical_test[j] = stoi(parsedata(word, 3));
+        // j++;
+    }
+    file2.close();
+}
+// void sorted_order(int size, string cnic[], string name[], string f_name[], string gender[], string qualification[])
+// {
+//     string temp;
+//     int temp1;
+//     for (int i = 0; i < size; i++)
+//     {
+//         for (int j = i + 1; j < size; j++)
+//         {
+//             if (total_marks[j] < total_marks[i])
+//             {
+//                 temp1 = total_marks[i];
+//                 total_marks[i] = total_marks[j];
+//                 total_marks[j] = temp1;
+//             }
+//             if (cnic[j] < cnic[i])
+//             {
+//                 temp = cnic[i];
+//                 cnic[i] = cnic[j];
+//                 cnic[j] = temp;
+//             }
+//         }
+//     }
+// }
